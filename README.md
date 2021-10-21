@@ -1,1 +1,1 @@
-# GLFW-DearImGUI-Template
+# GLFW DearImGUI Template
