@@ -13,7 +13,7 @@ include_directories(external/)
 
 
 # CORE
-add_executable(GLFW_ImGUI_Template
+add_executable(${PROJECT_NAME}
         src/main.cpp)
 
-target_link_libraries(GLFW_ImGUI_Template PRIVATE glfw OpenGL::GL glad glm imgui)
+target_link_libraries(${PROJECT_NAME} PRIVATE glfw OpenGL::GL glad glm imgui)
