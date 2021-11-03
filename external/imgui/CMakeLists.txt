@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.6)
+include_directories(../glfw/include/)
 add_library(
         imgui STATIC
         imconfig.h

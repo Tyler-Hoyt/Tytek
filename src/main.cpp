@@ -54,7 +54,7 @@ int main(int, char**)
     ImGui_ImplOpenGL3_Init(glsl_version);
 
 
-    ImVec4 clear_color = ImVec4(0.5f, 0.2f, 0.30f, 1.00f);
+    float clear_color[] {0.5f, 0.2f, 0.30f, 1.00f};
 
     // Main loop
     while (!glfwWindowShouldClose(window))
@@ -71,6 +71,9 @@ int main(int, char**)
         ImGui::Text("This is some useful text.");
         if (ImGui::Button("Button"))
             printf("Button Pressed!\n");
+
+        ImGui::Text("Change Clear Color");
+        ImGui::ColorPicker4("Clear Color", clear_color);
         ImGui::End();
 
         // Rendering
@@ -78,7 +81,7 @@ int main(int, char**)
         int width, heigth;
         glfwGetFramebufferSize(window, &width, &heigth);
         glViewport(0, 0, width, heigth);
-        glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+        glClearColor(clear_color[0] * clear_color[3], clear_color[1] * clear_color[3], clear_color[2] * clear_color[3], clear_color[3]);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
