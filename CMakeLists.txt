@@ -13,7 +13,9 @@ include_directories(external/)
 
 
 # CORE
-add_executable(${PROJECT_NAME}
-        src/main.cpp)
+include_directories(include)
+add_subdirectory(src)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE glfw OpenGL::GL glad glm imgui)
+# ASSETS
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+file(COPY shaders DESTINATION ${CMAKE_BINARY_DIR})

@@ -4,6 +4,8 @@
 
 #include <stdio.h>
 
+
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 
@@ -39,6 +41,12 @@ int main(int, char**)
         return 1;
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
+
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        printf("Failed to initialize GLAD\n");
+        return -1;
+    }
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
