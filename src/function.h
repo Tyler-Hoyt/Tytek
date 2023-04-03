@@ -9,6 +9,7 @@
 
 // Function Declarations
 void ImGuiInit();
-void HandleEvent();
-void UpdateWindow();
-void Render();
+void ImGuiWidgets(
+        std::filesystem::__cxx11::path& lastSelectedFile, 
+        char str_hold[], 
+        ImGui::FileBrowser& fileDialog);
