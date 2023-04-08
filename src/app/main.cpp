@@ -1,9 +1,12 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+#include "imgui_func.h"
+#include "imgui-filebrowser/imfilebrowser.h"
+#include "imgui_style.h"
 
 #include <stdio.h>
-
+#include <vector>
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -16,6 +19,11 @@ static void glfw_error_callback(int error, const char* description)
 
 int main(int, char**)
 {
+
+    // Setup file explorer
+    ImGui::FileBrowser* fileDialog = new ImGui::FileBrowser();
+    fileDialogInit(fileDialog);
+    
     // Setup window
     glfwSetErrorCallback(glfw_error_callback);
     if (!glfwInit())
@@ -36,9 +44,10 @@ int main(int, char**)
 #endif
 
     // Create window with graphics context
-    GLFWwindow* window = glfwCreateWindow(1280, 720, "Dear ImGui GLFW+OpenGL3 example", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(2560, 1440, "Tytek", NULL, NULL);
     if (window == NULL)
         return 1;
+    glfwSetWindowSizeLimits(window, 1000, 1000, GLFW_DONT_CARE, GLFW_DONT_CARE);
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1); // Enable vsync
 
@@ -51,11 +60,19 @@ int main(int, char**)
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO& io = ImGui::GetIO(); (void)io;
 
-    // Setup Dear ImGui style
-    ImGui::StyleColorsDark();
-    //ImGui::StyleColorsClassic();
+    ImGuiStyle& style = ImGui::GetStyle();
+    ImGui::StyleColorsLight();
+    style.ScaleAllSizes(2.f);
+
+    setImGuiStyle(style);
+
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.FontGlobalScale = 3.f;
+    io.WantCaptureMouse = true;
+
+    // Setup string for saving a selected file
+    std::string lastSelectedFile;
 
     // Setup Platform/Renderer backends
     ImGui_ImplGlfw_InitForOpenGL(window, true);
@@ -74,21 +91,28 @@ int main(int, char**)
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
 
-        // Sample Window
-        ImGui::Begin("Sample Window");
-        ImGui::Text("This is some useful text.");
-        if (ImGui::Button("Button"))
-            printf("Button Pressed!\n");
+        // ImGui Window Resize Handling
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
 
-        ImGui::Text("Change Clear Color");
-        ImGui::ColorPicker4("Clear Color", clear_color);
+        // Sample Window
+        ImGui::SetNextWindowSize(ImVec2(width, height));
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        ImGui::Begin("Tytek", NULL,
+                ImGuiWindowFlags_NoMove |
+                ImGuiWindowFlags_NoResize |
+                ImGuiWindowFlags_MenuBar |
+                ImGuiWindowFlags_NoCollapse);
+
+        ImGuiWidgets(fileDialog, height, width, lastSelectedFile);
+
         ImGui::End();
 
         // Rendering
         ImGui::Render();
-        int width, heigth;
-        glfwGetFramebufferSize(window, &width, &heigth);
-        glViewport(0, 0, width, heigth);
+        ImGui::EndFrame();
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
         glClearColor(clear_color[0] * clear_color[3], clear_color[1] * clear_color[3], clear_color[2] * clear_color[3], clear_color[3]);
         glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -100,6 +124,7 @@ int main(int, char**)
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplGlfw_Shutdown();
     ImGui::DestroyContext();
+    delete fileDialog;
 
     glfwDestroyWindow(window);
     glfwTerminate();
