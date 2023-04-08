@@ -1,6 +1,6 @@
 # Tytek
 Very basic text editor with a dynamic sized buffer using std::string.
-Tested using Linux
+Tested using Linux.
 
 - Made with DearImGui and FileBrowser from AirGuanZ
 
