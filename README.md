@@ -23,3 +23,5 @@ The template offer a starter example of a basic color picker to change the clear
     `cmake ..`
 
     `make`
+=======
+# Tytek

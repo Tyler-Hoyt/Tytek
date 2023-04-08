@@ -5,3 +5,8 @@ set(CMAKE_CXX_EXTENSIONS        NO)
 add_subdirectory(imgui)
 add_subdirectory(glad)
 add_subdirectory(app)
+
+add_executable(main 
+    main.cpp
+    ImGuiFunc.cpp
+)

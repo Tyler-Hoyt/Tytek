@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(
-    GLFW_imgui_template
+    Tytek
     VERSION 0.1
     LANGUAGES C CXX
     )
@@ -11,6 +11,8 @@ set(INCLUDE_ROOT "${PROJECT_SOURCE_DIR}/src")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/out )
 
 # For Clangd
+cmake_minimum_required(VERSION 3.15)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
